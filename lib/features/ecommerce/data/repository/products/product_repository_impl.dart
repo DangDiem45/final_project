@@ -34,4 +34,18 @@ class ProductRepositoryImpl implements ProductRepository {
       return Left(ServerFailure('Unexpected error: $e'));
     }
   }
+
+  @override
+  Future<Either<Failure, List<Product>>> getProductsByCategory(
+    String category,
+  ) async {
+    try {
+      final result = await apiService.getProductsByCategory(category);
+      return Right(result.map((model) => model.toEntity()).toList());
+    } on DioException catch (e) {
+      return Left(ServerFailure(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return Left(ServerFailure('Unexpected error: $e'));
+    }
+  }
 }

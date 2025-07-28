@@ -1,4 +1,3 @@
-import 'package:final_project/core/di/injection_container.dart';
 import 'package:final_project/features/ecommerce/presentation/home/bloc/home_bloc.dart';
 import 'package:final_project/features/ecommerce/presentation/home/bloc/home_event.dart';
 import 'package:final_project/features/ecommerce/presentation/home/bloc/home_state.dart';
@@ -49,130 +48,131 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<HomeBloc>()..add(LoadHome()),
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          title: Text(
-            'Discover',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Text(
+          'Discover',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
           ),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.notifications_outlined, color: Colors.black),
-            ),
-          ],
         ),
-        body: BlocBuilder<HomeBloc, HomeState>(
-          builder: (context, state) {
-            return RefreshIndicator(
-              onRefresh: () async {
-                context.read<HomeBloc>().add(RefreshHome());
-              },
-              child: SingleChildScrollView(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Search for clothes...',
-                          border: InputBorder.none,
-                          prefixIcon: Icon(Icons.search, color: Colors.grey),
-                          suffixIcon: Icon(Icons.mic, color: Colors.grey),
-                          contentPadding: EdgeInsets.only(top: 12),
-                        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.notifications_outlined, color: Colors.black),
+          ),
+        ],
+      ),
+      body: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<HomeBloc>().add(RefreshHome());
+            },
+            child: SingleChildScrollView(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search for clothes...',
+                        border: InputBorder.none,
+                        prefixIcon: Icon(Icons.search, color: Colors.grey),
+                        suffixIcon: Icon(Icons.mic, color: Colors.grey),
+                        contentPadding: EdgeInsets.only(top: 12),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      height: 40,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: state.categories.length,
-                        itemBuilder: (context, index) {
-                          final category = state.categories[index];
-                          return CategoryChip(
-                            label: category,
-                            // onTap: () {
-                            // },
-                          );
-                        },
-                      ),
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    height: 40,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: state.categories.length,
+                      itemBuilder: (context, index) {
+                        final category = state.categories[index];
+                        return CategoryChip(
+                          label: category,
+                          isSelected: category == state.selectedCategory,
+                          onTap: () {
+                            context.read<HomeBloc>().add(
+                              LoadProductsByCategory(category),
+                            );
+                          },
+                        );
+                      },
                     ),
-                    const SizedBox(height: 20),
-                    if (state.isLoading)
-                      const Center(child: CircularProgressIndicator())
-                    else if (state.error != null)
-                      Center(
-                        child: Column(
-                          children: [
-                            Text('Error: ${state.error}'),
-                            ElevatedButton(
-                              onPressed: () {
-                                context.read<HomeBloc>().add(RefreshHome());
-                              },
-                              child: const Text('Retry'),
-                            ),
-                          ],
-                        ),
-                      )
-                    else
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 0.7,
-                              crossAxisSpacing: 16,
-                              mainAxisSpacing: 16,
-                            ),
-                        itemCount: state.products.length,
-                        itemBuilder: (context, index) {
-                          final product = state.products[index];
-                          return ProductCard(product: product);
-                        },
+                  ),
+                  const SizedBox(height: 20),
+                  if (state.isLoading)
+                    const Center(child: CircularProgressIndicator())
+                  else if (state.error != null)
+                    Center(
+                      child: Column(
+                        children: [
+                          Text('Error: ${state.error}'),
+                          ElevatedButton(
+                            onPressed: () {
+                              context.read<HomeBloc>().add(RefreshHome());
+                            },
+                            child: const Text('Retry'),
+                          ),
+                        ],
                       ),
-                  ],
-                ),
+                    )
+                  else
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.7,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
+                          ),
+                      itemCount: state.products.length,
+                      itemBuilder: (context, index) {
+                        final product = state.products[index];
+                        return ProductCard(product: product);
+                      },
+                    ),
+                ],
               ),
-            );
-          },
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.black,
-          unselectedItemColor: Colors.grey,
-          onTap: _onItemTapped,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border),
-              label: 'Saved',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart),
-              label: 'Cart',
-            ),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
-          ],
-        ),
+          );
+        },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border),
+            label: 'Saved',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
+        ],
       ),
     );
   }

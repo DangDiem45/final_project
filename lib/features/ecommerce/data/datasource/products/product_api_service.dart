@@ -12,4 +12,9 @@ abstract class ProductApiService {
 
   @GET('/products/categories')
   Future<List<String>> getCategories();
+
+  @GET('/products/category/{category}')
+  Future<List<ProductModel>> getProductsByCategory(
+    @Path('category') String category,
+  );
 }

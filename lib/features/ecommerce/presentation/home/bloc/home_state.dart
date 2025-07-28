@@ -4,6 +4,7 @@ import 'package:final_project/features/ecommerce/domain/entities/products/produc
 class HomeState extends Equatable {
   final List<Product> products;
   final List<String> categories;
+  final String selectedCategory;
   final bool isLoading;
   final bool isLoadingCategories;
   final String? error;
@@ -11,6 +12,7 @@ class HomeState extends Equatable {
   const HomeState({
     this.products = const [],
     this.categories = const [],
+    this.selectedCategory = 'All',
     this.isLoading = false,
     this.isLoadingCategories = false,
     this.error,
@@ -19,6 +21,7 @@ class HomeState extends Equatable {
   HomeState copyWith({
     List<Product>? products,
     List<String>? categories,
+    String? selectedCategory,
     bool? isLoading,
     bool? isLoadingCategories,
     String? error,
@@ -26,6 +29,7 @@ class HomeState extends Equatable {
     return HomeState(
       products: products ?? this.products,
       categories: categories ?? this.categories,
+      selectedCategory: selectedCategory ?? this.selectedCategory,
       isLoading: isLoading ?? this.isLoading,
       isLoadingCategories: isLoadingCategories ?? this.isLoadingCategories,
       error: error ?? this.error,
@@ -36,6 +40,7 @@ class HomeState extends Equatable {
   List<Object?> get props => [
     products,
     categories,
+    selectedCategory,
     isLoading,
     isLoadingCategories,
     error,
