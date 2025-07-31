@@ -1,4 +1,8 @@
 import 'package:final_project/core/di/injection_container.dart';
+import 'package:final_project/features/ecommerce/domain/entities/products/product.dart';
+import 'package:final_project/features/ecommerce/presentation/cart/bloc/cart_bloc.dart';
+import 'package:final_project/features/ecommerce/presentation/cart/pages/my_cart_page.dart';
+import 'package:final_project/features/ecommerce/presentation/details/pages/product_detail_page.dart';
 import 'package:final_project/features/ecommerce/presentation/home/bloc/home_bloc.dart';
 import 'package:final_project/features/ecommerce/presentation/home/pages/home_page.dart';
 import 'package:final_project/features/ecommerce/presentation/save/bloc/saved_bloc.dart';
@@ -39,6 +43,18 @@ final GoRouter router = GoRouter(
         value: sl<SavedBloc>(),
         child: SavedFavoritePage(),
       ),
+    ),
+    GoRoute(
+      path: '/cart',
+      builder: (context, state) =>
+          BlocProvider.value(value: sl<CartBloc>(), child: MyCartPage()),
+    ),
+    GoRoute(
+      path: '/product/:id',
+      builder: (context, state) {
+        final product = state.extra as Product;
+        return ProductDetailPage(product: product);
+      },
     ),
   ],
 );

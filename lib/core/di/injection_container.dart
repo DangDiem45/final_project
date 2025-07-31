@@ -11,8 +11,10 @@ import 'package:final_project/features/ecommerce/domain/repository/products/save
 import 'package:final_project/features/ecommerce/domain/usecases/get_categories.dart';
 import 'package:final_project/features/ecommerce/domain/usecases/get_product.dart';
 import 'package:final_project/features/ecommerce/domain/usecases/get_products_by_category.dart';
+import 'package:final_project/features/ecommerce/presentation/cart/bloc/cart_bloc.dart';
 import 'package:final_project/features/ecommerce/presentation/home/bloc/home_bloc.dart';
 import 'package:final_project/features/ecommerce/presentation/save/bloc/saved_bloc.dart';
+import 'package:final_project/features/ecommerce/presentation/search/bloc/search_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -69,5 +71,7 @@ Future<void> initializeDependencies() async {
       getProductsByCategory: sl(),
     ),
   );
+  sl.registerFactory(() => SearchBloc());
   sl.registerFactory(() => SavedBloc(sl()));
+  sl.registerLazySingleton(() => CartBloc());
 }

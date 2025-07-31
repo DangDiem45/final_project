@@ -73,6 +73,7 @@ class _HomePageState extends State<HomePage> {
         context.go('/saved');
         break;
       case 3:
+        context.go('/cart');
         break;
       case 4:
         break;
@@ -111,22 +112,6 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Container(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  //   decoration: BoxDecoration(
-                  //     color: Colors.grey[200],
-                  //     borderRadius: BorderRadius.circular(12),
-                  //   ),
-                  //   child: TextField(
-                  //     decoration: InputDecoration(
-                  //       hintText: 'Search for clothes...',
-                  //       border: InputBorder.none,
-                  //       prefixIcon: Icon(Icons.search, color: Colors.grey),
-                  //       suffixIcon: Icon(Icons.mic, color: Colors.grey),
-                  //       contentPadding: EdgeInsets.only(top: 12),
-                  //     ),
-                  //   ),
-                  // ),
                   SearchBar(
                     controller: _searchController,
                     onChanged: (value) => _performSearch(
