@@ -58,13 +58,15 @@ class MyCartPage extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             itemCount: state.cartItems.length,
             itemBuilder: (context, index) {
-              final product = state.cartItems[index];
+              final cartItem = state.cartItems[index];
               return CartItemWidget(
-                product: product,
+                cartItem: cartItem,
                 index: index,
                 onRemove: () {
-                  print('Removing product: ${product.title}');
-                  context.read<CartBloc>().add(RemoveFromCart(product));
+                  print('Removing product: ${cartItem.product.title}');
+                  context.read<CartBloc>().add(
+                    RemoveFromCart(cartItem.product),
+                  );
                 },
               );
             },

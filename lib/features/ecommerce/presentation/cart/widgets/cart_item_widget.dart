@@ -1,14 +1,18 @@
+import 'package:final_project/features/ecommerce/presentation/cart/bloc/cart_bloc.dart';
+import 'package:final_project/features/ecommerce/presentation/cart/bloc/cart_event.dart';
+import 'package:final_project/features/ecommerce/presentation/cart/bloc/cart_state.dart';
 import 'package:final_project/features/ecommerce/presentation/cart/widgets/quantity_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartItemWidget extends StatelessWidget {
-  final dynamic product;
+  final CartItem cartItem;
   final int index;
   final VoidCallback onRemove;
 
   const CartItemWidget({
     super.key,
-    required this.product,
+    required this.cartItem,
     required this.index,
     required this.onRemove,
   });
@@ -41,7 +45,7 @@ class CartItemWidget extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
-                product.image,
+                cartItem.product.image,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => Container(
                   color: Colors.grey[200],
@@ -60,7 +64,7 @@ class CartItemWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product.title,
+                  cartItem.product.title,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -76,7 +80,7 @@ class CartItemWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '\$ ${product.price.toStringAsFixed(0)}',
+                  '\$ ${cartItem.product.price.toStringAsFixed(0)}',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -102,18 +106,32 @@ class CartItemWidget extends StatelessWidget {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  QuantityButtonWidget(icon: Icons.remove, onTap: () {}),
+                  QuantityButtonWidget(
+                    icon: Icons.remove,
+                    onTap: () {
+                      context.read<CartBloc>().add(
+                        DecreaseQuantity(cartItem.product),
+                      );
+                    },
+                  ),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 12),
-                    child: const Text(
-                      '1',
-                      style: TextStyle(
+                    child: Text(
+                      '${cartItem.quantity}',
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                  QuantityButtonWidget(icon: Icons.add, onTap: () {}),
+                  QuantityButtonWidget(
+                    icon: Icons.add,
+                    onTap: () {
+                      context.read<CartBloc>().add(
+                        IncreaseQuantity(cartItem.product),
+                      );
+                    },
+                  ),
                 ],
               ),
             ],

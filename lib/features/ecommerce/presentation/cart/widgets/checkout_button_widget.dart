@@ -1,5 +1,6 @@
 import 'package:final_project/features/ecommerce/presentation/cart/bloc/cart_state.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CheckoutButtonWidget extends StatelessWidget {
   final CartState state;
@@ -17,9 +18,7 @@ class CheckoutButtonWidget extends StatelessWidget {
           onPressed: state.cartItems.isEmpty
               ? null
               : () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Checkout clicked!')),
-                  );
+                  context.go('/checkout');
                 },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black,

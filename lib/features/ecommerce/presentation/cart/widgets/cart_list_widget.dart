@@ -16,7 +16,7 @@ class CartListWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           final product = state.cartItems[index];
           return CartItemWidget(
-            product: product,
+            cartItem: product,
             index: index,
             onRemove: () {},
           );
