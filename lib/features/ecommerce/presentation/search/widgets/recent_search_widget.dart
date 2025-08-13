@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class RecentSearches extends StatelessWidget {
   final List<String> recentSearches;
@@ -37,7 +38,7 @@ class RecentSearches extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          Gap(16),
           Expanded(
             child: ListView.builder(
               itemCount: recentSearches.length,

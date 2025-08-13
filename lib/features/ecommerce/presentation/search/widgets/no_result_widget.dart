@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class NoResults extends StatelessWidget {
   const NoResults({super.key});
@@ -22,7 +23,7 @@ class NoResults extends StatelessWidget {
             'No Results Found!',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
-          const SizedBox(height: 8),
+          Gap(8),
           const Text(
             'Try a similar word or something\nmore general.',
             textAlign: TextAlign.center,
