@@ -1,10 +1,16 @@
+import 'package:final_project/features/ecommerce/domain/entities/products/product.dart';
 import 'package:final_project/features/ecommerce/presentation/home/bloc/home_bloc.dart';
 import 'package:final_project/features/ecommerce/presentation/home/bloc/home_event.dart';
 import 'package:final_project/features/ecommerce/presentation/home/bloc/home_state.dart';
 import 'package:final_project/features/ecommerce/presentation/home/widgets/category_chip.dart';
 import 'package:final_project/features/ecommerce/presentation/home/widgets/product_card.dart';
+import 'package:final_project/features/ecommerce/presentation/search/bloc/search_bloc.dart';
+import 'package:final_project/features/ecommerce/presentation/search/bloc/search_event.dart';
+import 'package:final_project/features/ecommerce/presentation/search/widgets/search_bar_widget.dart';
+import 'package:final_project/features/ecommerce/presentation/search/widgets/suggestion_widget.dart';
 import 'package:flutter/material.dart' hide SearchBar;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,6 +22,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -23,6 +30,33 @@ class _HomePageState extends State<HomePage> {
     if (_selectedIndex == 0) {
       context.read<HomeBloc>().add(LoadHome());
     }
+  }
+
+  void _performSearch(
+    SearchBloc searchBloc,
+    String query,
+    List<Product> allProducts,
+  ) {
+    searchBloc.add(PerformSearch(query, allProducts));
+  }
+
+  void _clearSearch(SearchBloc searchBloc) {
+    _searchController.clear();
+    searchBloc.add(ClearSearch());
+  }
+
+  void _addToRecentSearch(SearchBloc searchBloc, String search) {
+    searchBloc.add(AddRecentSearch(search));
+  }
+
+  void _navigateToSearch(String query) {
+    context.go('/search?q=$query');
+  }
+
+  void _onSuggestionSelected(String suggestion) {
+    setState(() {
+      _searchController.text = suggestion;
+    });
   }
 
   void _onItemTapped(int index) {
@@ -78,23 +112,21 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(12),
+                  SearchBar(
+                    controller: _searchController,
+                    onChanged: (value) => _performSearch(
+                      context.read<SearchBloc>(),
+                      value,
+                      state.products,
                     ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Search for clothes...',
-                        border: InputBorder.none,
-                        prefixIcon: Icon(Icons.search, color: Colors.grey),
-                        suffixIcon: Icon(Icons.mic, color: Colors.grey),
-                        contentPadding: EdgeInsets.only(top: 12),
-                      ),
-                    ),
+                    onSubmitted: (value) {
+                      _addToRecentSearch(context.read<SearchBloc>(), value);
+                      _navigateToSearch(value);
+                    },
+                    onClear: () => _clearSearch(context.read<SearchBloc>()),
                   ),
-                  const SizedBox(height: 20),
+                  Suggestions(onSuggestionSelected: _onSuggestionSelected),
+                  Gap(10),
                   SizedBox(
                     height: 40,
                     child: ListView.builder(
@@ -114,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  Gap(20),
                   if (state.isLoading)
                     const Center(child: CircularProgressIndicator())
                   else if (state.error != null)

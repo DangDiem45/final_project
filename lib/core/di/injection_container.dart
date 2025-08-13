@@ -7,6 +7,7 @@ import 'package:final_project/features/ecommerce/domain/usecases/get_categories.
 import 'package:final_project/features/ecommerce/domain/usecases/get_product.dart';
 import 'package:final_project/features/ecommerce/domain/usecases/get_products_by_category.dart';
 import 'package:final_project/features/ecommerce/presentation/home/bloc/home_bloc.dart';
+import 'package:final_project/features/ecommerce/presentation/search/bloc/search_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
@@ -29,4 +30,5 @@ Future<void> initializeDependencies() async {
       getProductsByCategory: sl(),
     ),
   );
+  sl.registerFactory(() => SearchBloc());
 }
