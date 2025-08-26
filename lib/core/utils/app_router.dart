@@ -3,6 +3,7 @@ import 'package:final_project/features/ecommerce/presentation/home/pages/home_pa
 import 'package:final_project/features/ecommerce/presentation/save/bloc/saved_bloc.dart';
 import 'package:final_project/features/ecommerce/presentation/save/pages/saved_favorite_page.dart';
 import 'package:final_project/features/ecommerce/presentation/search/pages/search_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(
