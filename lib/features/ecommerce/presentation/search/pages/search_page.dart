@@ -14,7 +14,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  final String initialQuery;
+  const SearchPage({super.key, required this.initialQuery});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -22,6 +23,17 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialQuery.isNotEmpty) {
+      final products = context.read<HomeBloc>().state.products;
+      context.read<SearchBloc>().add(
+        PerformSearch(widget.initialQuery, products),
+      );
+    }
+  }
 
   @override
   void dispose() {

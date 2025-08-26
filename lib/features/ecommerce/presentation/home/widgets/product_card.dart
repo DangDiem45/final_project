@@ -5,6 +5,7 @@ import 'package:final_project/features/ecommerce/presentation/save/bloc/saved_ev
 import 'package:final_project/features/ecommerce/presentation/save/bloc/saved_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -112,7 +113,7 @@ class ProductCard extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 4),
+                        Gap(8),
                         Text(
                           '\$${product.price.toStringAsFixed(2)}',
                           style: const TextStyle(
