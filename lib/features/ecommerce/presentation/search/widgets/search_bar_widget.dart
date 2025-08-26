@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class SearchBar extends StatelessWidget {
   final TextEditingController controller;
@@ -46,7 +47,7 @@ class SearchBar extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          Gap(12),
           GestureDetector(
             child: Container(
               padding: const EdgeInsets.all(12),
