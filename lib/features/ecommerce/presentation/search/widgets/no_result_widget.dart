@@ -18,7 +18,7 @@ class NoResults extends StatelessWidget {
             ),
             child: const Icon(Icons.search, size: 48, color: Colors.grey),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           const Text(
             'No Results Found!',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
