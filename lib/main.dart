@@ -1,5 +1,6 @@
 import 'package:final_project/core/di/injection_container.dart';
 import 'package:final_project/core/utils/app_router.dart';
+import 'package:final_project/features/ecommerce/presentation/cart/bloc/cart_bloc.dart';
 import 'package:final_project/features/ecommerce/presentation/home/bloc/home_bloc.dart';
 import 'package:final_project/features/ecommerce/presentation/home/bloc/home_event.dart';
 import 'package:final_project/features/ecommerce/presentation/save/bloc/saved_bloc.dart';
@@ -12,14 +13,17 @@ void main() async {
   await initializeDependencies();
 
   final homeBloc = sl<HomeBloc>();
+  final searchBloc = sl<SearchBloc>();
   final savedBloc = sl<SavedBloc>();
+  final cartBloc = sl<CartBloc>();
 
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider.value(value: homeBloc),
-        BlocProvider(create: (_) => sl<SearchBloc>()),
+        BlocProvider.value(value: searchBloc),
         BlocProvider.value(value: savedBloc),
+        BlocProvider.value(value: cartBloc),
       ],
       child: const MyApp(),
     ),

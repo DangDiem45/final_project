@@ -5,6 +5,11 @@ import 'package:final_project/features/ecommerce/presentation/save/pages/saved_f
 import 'package:final_project/features/ecommerce/presentation/search/pages/search_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:final_project/features/ecommerce/domain/entities/products/product.dart';
+import 'package:final_project/features/ecommerce/presentation/cart/bloc/cart_bloc.dart';
+import 'package:final_project/features/ecommerce/presentation/cart/pages/my_cart_page.dart';
+import 'package:final_project/features/ecommerce/presentation/checkout/pages/checkout_page.dart';
+import 'package:final_project/features/ecommerce/presentation/details/pages/product_detail_page.dart';
 
 final GoRouter router = GoRouter(
   routes: [
@@ -22,6 +27,23 @@ final GoRouter router = GoRouter(
         value: sl<SavedBloc>(),
         child: SavedFavoritePage(),
       ),
+    ),
+    GoRoute(
+      path: '/cart',
+      builder: (context, state) =>
+          BlocProvider.value(value: sl<CartBloc>(), child: MyCartPage()),
+    ),
+    GoRoute(
+      path: '/checkout',
+      builder: (context, state) =>
+          BlocProvider.value(value: sl<CartBloc>(), child: CheckoutPage()),
+    ),
+    GoRoute(
+      path: '/product/:id',
+      builder: (context, state) {
+        final product = state.extra as Product;
+        return ProductDetailPage(product: product);
+      },
     ),
   ],
 );

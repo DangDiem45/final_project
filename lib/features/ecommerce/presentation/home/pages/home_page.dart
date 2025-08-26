@@ -74,6 +74,7 @@ class _HomePageState extends State<HomePage> {
         context.go('/saved');
         break;
       case 3:
+        context.go('/cart');
         break;
       case 4:
         break;

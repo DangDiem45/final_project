@@ -1,5 +1,8 @@
 import 'package:final_project/features/ecommerce/domain/entities/products/product.dart';
+import 'package:final_project/features/ecommerce/presentation/cart/bloc/cart_bloc.dart';
+import 'package:final_project/features/ecommerce/presentation/cart/bloc/cart_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -247,12 +250,26 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
+                        print(
+                          'Adding product to cart: ${widget.product.title}',
+                        );
+                        final cartBloc = context.read<CartBloc>();
+                        cartBloc.add(AddToCart(widget.product));
+
+                        print(
+                          'Current cart items: ${cartBloc.state.cartItems.length}',
+                        );
+
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
                               '${widget.product.title} added to cart',
                             ),
                             duration: const Duration(seconds: 2),
+                            action: SnackBarAction(
+                              label: 'View Cart',
+                              onPressed: () => context.go('/cart'),
+                            ),
                           ),
                         );
                       },
