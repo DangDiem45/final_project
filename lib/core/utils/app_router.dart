@@ -4,7 +4,6 @@ import 'package:final_project/features/ecommerce/presentation/cart/bloc/cart_blo
 import 'package:final_project/features/ecommerce/presentation/cart/pages/my_cart_page.dart';
 import 'package:final_project/features/ecommerce/presentation/checkout/pages/checkout_page.dart';
 import 'package:final_project/features/ecommerce/presentation/details/pages/product_detail_page.dart';
-import 'package:final_project/features/ecommerce/presentation/home/bloc/home_bloc.dart';
 import 'package:final_project/features/ecommerce/presentation/home/pages/home_page.dart';
 import 'package:final_project/features/ecommerce/presentation/save/bloc/saved_bloc.dart';
 import 'package:final_project/features/ecommerce/presentation/save/pages/saved_favorite_page.dart';
@@ -14,13 +13,7 @@ import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(
   routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => BlocProvider(
-        create: (context) => sl<HomeBloc>(),
-        child: const HomePage(),
-      ),
-    ),
+    GoRoute(path: '/', builder: (context, state) => HomePage()),
     GoRoute(
       path: '/search',
       builder: (context, state) {
