@@ -10,6 +10,12 @@ class Suggestions extends StatelessWidget {
 
   const Suggestions({super.key, required this.onSuggestionSelected});
 
+  void _handleSuggestionTap(BuildContext context, String suggestion) {
+    final products = context.read<HomeBloc>().state.products;
+    context.read<SearchBloc>().add(PerformSearch(suggestion, products));
+    onSuggestionSelected(suggestion);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SearchBloc, SearchState>(
@@ -23,15 +29,7 @@ class Suggestions extends StatelessWidget {
                 return ListTile(
                   contentPadding: EdgeInsets.zero,
                   title: Text(suggestion, style: const TextStyle(fontSize: 16)),
-                  onTap: () {
-                    context.read<SearchBloc>().add(
-                      PerformSearch(
-                        suggestion,
-                        context.read<HomeBloc>().state.products,
-                      ),
-                    );
-                    onSuggestionSelected(suggestion);
-                  },
+                  onTap: () => _handleSuggestionTap(context, suggestion),
                 );
               }).toList(),
             ),

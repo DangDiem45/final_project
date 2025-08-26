@@ -10,6 +10,7 @@ import 'package:final_project/features/ecommerce/presentation/search/widgets/sea
 import 'package:final_project/features/ecommerce/presentation/search/widgets/suggestion_widget.dart';
 import 'package:flutter/material.dart' hide SearchBar;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
@@ -126,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                     onClear: () => _clearSearch(context.read<SearchBloc>()),
                   ),
                   Suggestions(onSuggestionSelected: _onSuggestionSelected),
-                  const SizedBox(height: 10),
+                  Gap(10),
                   SizedBox(
                     height: 40,
                     child: ListView.builder(
@@ -146,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  Gap(20),
                   if (state.isLoading)
                     const Center(child: CircularProgressIndicator())
                   else if (state.error != null)
